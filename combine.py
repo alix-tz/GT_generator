@@ -63,5 +63,5 @@ if args["test"] is True:
 
 combined_img_name = os.path.basename(os.path.normpath(PATH_TO_IMG_ORIG)) + ".png"
 print("combination saved as {}".format(combined_img_name))
-cv2.imwrite(os.path.join(PATH_TO_IMG_OUT, combined_img_name), image)
+cv2.imwrite(os.path.join(PATH_TO_IMG_OUT, combined_img_name), bg)
 

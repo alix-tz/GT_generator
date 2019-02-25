@@ -67,3 +67,18 @@ def get_class_color(filename):
             return c, my_classes[c]["color"]
     # default is RED
     return "default", [0,0,255]
+
+
+def get_class_order():
+    """ calculate layers' order from user's indications in class_color.py
+
+    :return: list of class names where first item is the bottom layer and last item is the top layer
+    """
+    theorder = [my_classes[type]["order"] for type in my_classes]
+    theorder.sort()
+    ordered_classes = []
+    for o in theorder:
+        for type in my_classes:
+            if int(my_classes[type]["order"]) == int(o):
+                ordered_classes.append(type)
+    return ordered_classes

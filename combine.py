@@ -8,16 +8,36 @@ import gt_io as io
 
 import argparse
 
-from class_colors import my_classes
 # additional features :
 # - verify image format
-# - order layers depending on the values of my_classes[key][order]
 
 def combine(bg, fg):
     for y, x in itertools.product(range(fg.shape[0]), range(fg.shape[1])):
         if np.sum(fg[y, x]):
             bg[y, x] = fg[y, x]
     return bg
+
+
+def order_layer(filenames):
+    """ order filenames in layer order assuming layer in given in filename
+    warning: this operation will fail if classes are ambiguous. ex: 2 classes named "text" and "textzone".
+    warning: this operation will fail if classes are not specific enough. ex: 2 classes names "a" and "b".
+
+    :param filenames: list of filenames
+    :return: list of ordered filenames or unchanged list of filenames
+    """
+    ordered_filenames = []
+    classes = io.get_class_order()
+    for c in classes:
+        for f in filenames:
+            if c in f:
+                ordered_filenames.append(f)
+    if len(filenames) == len(ordered_filenames):
+        return ordered_filenames
+    else:
+        print("failed to calculate layer order")
+        return filenames
+
 
 start = time.time()
 
@@ -31,7 +51,7 @@ if args["test"] is True:
     print(args)
 
 PATH_TO_IMG_ORIG = args["input"]
-PATH_TO_IMG_OUT = gt_utils.make_path_to_out(args["output"],PATH_TO_IMG_ORIG)
+PATH_TO_IMG_OUT = gt_utils.make_path_to_out(args["output"],PATH_TO_IMG_ORIG, "combined")
 os.makedirs(PATH_TO_IMG_OUT, exist_ok=True)
 if args["test"] is True:
     print("taken from: {}".format(PATH_TO_IMG_ORIG))
@@ -39,25 +59,29 @@ if args["test"] is True:
 
 layers = io.get_layers(PATH_TO_IMG_ORIG)
 if args["test"] is True:
-    print("will process: {} files\n{}".format(len(layers), layers))
+    print("will process: {} files\nnot ordered layers: {}".format(len(layers), layers))
+
+layers = order_layer(layers)
+if args["test"] is True:
+    print("ordered layers: {}".format(layers))
 
 images = []
 for layer in layers:
     image = cv2.imread(os.path.join(PATH_TO_IMG_ORIG, layer))
     images.append(image)
 if args["test"] is True:
-    print(len(images))
+    print("gathered: {} images".format(len(images)))
 
 canvas = np.zeros(images[0].shape, dtype='uint8')
 if args["test"] is True:
-    print(canvas.shape)
+    print("canvas will be (y,x,depth): {}".format(canvas.shape))
 
 bg = canvas
 for img in images:
     bg = combine(bg,img)
 
 end = time.time()
-print(end-start)
+print("excution time : {} seconds. ({} minutes).".format(end-start, end-start // 60))
 if args["test"] is True:
     gt_utils.get_glimpse(bg, wk=False)
 

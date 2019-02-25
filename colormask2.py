@@ -15,19 +15,11 @@ if args["test"] is True:
     print(args)
 
 PATH_TO_IMG_ORIG = args["input"]
-if args["output"]:
-    if args["output"].startswith("/"):
-        PATH_TO_IMG_OUT = args["output"]
-    else:
-        print("invalid output path, images will be saved in {}".format(os.path.join(PATH_TO_IMG_ORIG, "processed")))
-        PATH_TO_IMG_OUT = os.path.join(PATH_TO_IMG_ORIG, "processed")
-else:
-    PATH_TO_IMG_OUT = os.path.join(PATH_TO_IMG_ORIG, "processed")
+PATH_TO_IMG_OUT = gt_utils.make_path_to_out(args["output"],PATH_TO_IMG_ORIG, "processed")
+os.makedirs(PATH_TO_IMG_OUT, exist_ok=True)
 if args["test"] is True:
     print("taken from: {}".format(PATH_TO_IMG_ORIG))
     print("saved to: {}".format(PATH_TO_IMG_OUT))
-
-os.makedirs(PATH_TO_IMG_OUT, exist_ok=True)
 
 originals = io.get_originals(PATH_TO_IMG_ORIG)
 if args["test"] is True:

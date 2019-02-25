@@ -1,6 +1,7 @@
 import os
 import cv2
 
+
 def get_glimpse(image, wk=False):
     """ show a small overview of an image (10% of original size)
 
@@ -19,7 +20,7 @@ def get_glimpse(image, wk=False):
     return
 
 
-def make_path_to_out(path_out, path_orig):
+def make_path_to_out(path_out, path_orig, default):
     """ validate abs path given by user or change it to default
 
     :param path_out: abs path to output (str)
@@ -28,9 +29,8 @@ def make_path_to_out(path_out, path_orig):
     """
     if path_out:
         if not path_out.startswith("/"):
-            print("invalid output path, images will be saved in {}".format(os.path.join(path_orig, "combined")))
-            path_out = os.path.join(path_orig, "combined")
+            print("invalid output path, images will be saved in {}".format(os.path.join(path_orig, default)))
+            path_out = os.path.join(path_orig, default)
     else:
-        path_out = os.path.join(path_orig, "combined")
+        path_out = os.path.join(path_orig, default)
     return path_out
-

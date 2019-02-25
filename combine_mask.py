@@ -12,6 +12,12 @@ import argparse
 # - verify image format
 
 def combine(bg, fg):
+    """ take two images and combine them, performing more than just an addition
+
+    :param bg: background image
+    :param fg: foreground image
+    :return:
+    """
     for y, x in itertools.product(range(fg.shape[0]), range(fg.shape[1])):
         if np.sum(fg[y, x]):
             bg[y, x] = fg[y, x]
@@ -19,7 +25,7 @@ def combine(bg, fg):
 
 
 def order_layer(filenames):
-    """ order filenames in layer order assuming layer in given in filename
+    """ order file names in layer order assuming layer in given in file name
     warning: this operation will fail if classes are ambiguous. ex: 2 classes named "text" and "textzone".
     warning: this operation will fail if classes are not specific enough. ex: 2 classes names "a" and "b".
 
@@ -81,10 +87,11 @@ for img in images:
     bg = combine(bg,img)
 
 end = time.time()
-print("excution time : {} seconds. ({} minutes).".format(end-start, end-start // 60))
+print("excution time : {} seconds. ({} minutes).".format(end-start, (end-start) / 60))
 if args["test"] is True:
     gt_utils.get_glimpse(bg, wk=False)
 
+# this calculation of filename should probably be improved
 combined_img_name = os.path.basename(os.path.normpath(PATH_TO_IMG_ORIG)) + ".png"
 print("combination saved as {}".format(combined_img_name))
 cv2.imwrite(os.path.join(PATH_TO_IMG_OUT, combined_img_name), bg)

@@ -11,12 +11,12 @@ my_classes = {
         "color": [200, 0, 0], # blue
         "order":3},
     "texte": {
-        "color":[0,125,125], # kaki
+        "color":[0,255,255], # yellow
         "order":2},
     "liste": {
-        "color":[125,125,0],  # turquoise
+        "color":[255,230,0],  # turquoise
         "order":5},
     "en-tête": {
-        "color":[125,0,125], # purple
+        "color":[255,0,155], # purple
         "order":4}
 }

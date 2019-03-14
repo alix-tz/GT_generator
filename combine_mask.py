@@ -4,25 +4,14 @@ import os
 import time
 import numpy as np
 import gt_utils
+import gt_image
 import gt_io as io
+
 
 import argparse
 
 # additional features :
 # - verify image format
-
-def combine(bg, fg):
-    """ take two images and combine them, performing more than just an addition
-
-    :param bg: background image
-    :param fg: foreground image
-    :return:
-    """
-    for y, x in itertools.product(range(fg.shape[0]), range(fg.shape[1])):
-        if np.sum(fg[y, x]):
-            bg[y, x] = fg[y, x]
-    return bg
-
 
 def order_layer(filenames):
     """ order file names in layer order assuming layer in given in file name
@@ -71,6 +60,13 @@ layers = order_layer(layers)
 if args["test"] is True:
     print("ordered layers: {}".format(layers))
 
+colors = []
+for layer in layers:
+    thatclass, thatcolor = io.get_class_color(layer)
+    colors.append(thatcolor)
+    if args["test"] is True:
+        print("{} = {}".format(thatclass, thatcolor))
+
 images = []
 for layer in layers:
     image = cv2.imread(os.path.join(PATH_TO_IMG_ORIG, layer))
@@ -82,17 +78,15 @@ canvas = np.zeros(images[0].shape, dtype='uint8')
 if args["test"] is True:
     print("canvas will be (y,x,depth): {}".format(canvas.shape))
 
-bg = canvas
-for img in images:
-    bg = combine(bg,img)
+combined_image = gt_image.makeannotatedimage(images, colors)
 
 end = time.time()
 print("excution time : {} seconds. ({} minutes).".format(end-start, (end-start) / 60))
 if args["test"] is True:
-    gt_utils.get_glimpse(bg, wk=False)
+    gt_utils.get_glimpse(combined_image, wk=False)
 
 # this calculation of filename should probably be improved
 combined_img_name = os.path.basename(os.path.normpath(PATH_TO_IMG_ORIG)) + ".png"
 print("combination saved as {}".format(combined_img_name))
-cv2.imwrite(os.path.join(PATH_TO_IMG_OUT, combined_img_name), bg)
+cv2.imwrite(os.path.join(PATH_TO_IMG_OUT, combined_img_name), combined_image)
 

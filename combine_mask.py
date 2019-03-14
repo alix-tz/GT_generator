@@ -66,6 +66,8 @@ for layer in layers:
     colors.append(thatcolor)
     if args["test"] is True:
         print("{} = {}".format(thatclass, thatcolor))
+if args["test"] is True:
+    print("layer(s)'s color(s) = {}".format(colors))
 
 images = []
 for layer in layers:
@@ -74,19 +76,19 @@ for layer in layers:
 if args["test"] is True:
     print("gathered: {} images".format(len(images)))
 
-canvas = np.zeros(images[0].shape, dtype='uint8')
 if args["test"] is True:
+    canvas = np.zeros(images[0].shape, dtype='uint8')
     print("canvas will be (y,x,depth): {}".format(canvas.shape))
 
-combined_image = gt_image.makeannotatedimage(images, colors)
+annotated_image = gt_image.makeannotatedimage(images, colors)
 
 end = time.time()
-print("excution time : {} seconds. ({} minutes).".format(end-start, (end-start) / 60))
+print("execution time : {} seconds.".format(end-start))
 if args["test"] is True:
-    gt_utils.get_glimpse(combined_image, wk=False)
+    gt_utils.get_glimpse(annotated_image, wk=False, legend="final_image")
 
 # this calculation of filename should probably be improved
 combined_img_name = os.path.basename(os.path.normpath(PATH_TO_IMG_ORIG)) + ".png"
 print("combination saved as {}".format(combined_img_name))
-cv2.imwrite(os.path.join(PATH_TO_IMG_OUT, combined_img_name), combined_image)
+cv2.imwrite(os.path.join(PATH_TO_IMG_OUT, combined_img_name), annotated_image)
 

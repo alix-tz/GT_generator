@@ -16,6 +16,8 @@ def get_originals(loc):
             return False
         else:
             rep_content[:] = (f for f in rep_content if f != ".DS_Store")
+            rep_content[:] = (f for f in rep_content if f != "processed")
+            rep_content[:] = (f for f in rep_content if f != "combined")
             rep_files = []
             for f in rep_content:
                 complete_path_to_f = os.path.join(loc, f)

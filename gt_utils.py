@@ -2,7 +2,7 @@ import os
 import cv2
 
 
-def get_glimpse(image, wk=False):
+def get_glimpse(image, wk=False, legend="current image"):
     """ show a small overview of an image (10% of original size)
 
     :param img: image
@@ -15,7 +15,7 @@ def get_glimpse(image, wk=False):
         wktime = 50
     dim = (int(image.shape[1] * 0.1), int(image.shape[0] * 0.1))
     visible = resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
-    cv2.imshow("current image", visible)
+    cv2.imshow(legend, visible)
     cv2.waitKey(wktime)
     return
 

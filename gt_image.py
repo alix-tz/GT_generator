@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+# import gt_utils
 
 
 def binarize(img):
@@ -9,7 +10,7 @@ def binarize(img):
     :return:
     """
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, bin = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+    ret, bin = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
     return bin
 
 
@@ -60,6 +61,7 @@ def makeannotatedimage(masks, colors):
     """
     if len(masks) != len(colors):
         print("Error: annotation and colors do not match.")
+        return False
     else:
         if len(masks) == 0:
             print("Error: no mask to combine.")
@@ -73,9 +75,10 @@ def makeannotatedimage(masks, colors):
             for mask in masks:
                 bin = binarize(mask)
                 bins.append(bin)
+
             # isolate first mask/layer from the rest
             firstmask = bins[:1]
-            combo = makecoloredlayer(combo, firstmask[0], colors[i])  # manque calcul de la couleur
+            combo = makecoloredlayer(combo, firstmask[0], colors[i])
 
             if len(bins) > 1:
                 other_masks = bins[1:]
@@ -85,6 +88,7 @@ def makeannotatedimage(masks, colors):
                     newmask = binarize(combo)
                     markedout = makemarkedmask(newmask, mask)
                     combo = applymark(combo, markedout)
-                    newlayer = makecoloredlayer(combo, mask, colors[i])  # manque calcul de la couleur
+                    newlayer = makecoloredlayer(combo, mask, colors[i])
                     combo = cv2.bitwise_or(combo, newlayer)
+
             return combo

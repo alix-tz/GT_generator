@@ -41,6 +41,6 @@ python generate_gt.py -i path/to/input -o /path/to/output
 ```
 
 ## Run GT_Generator recursively
-`recursive_generate_gt.py` is a simple script designed to apply **generate_gt.py** recursively on a list of directory provided in the "list_of_dirs" variable. 
+`recursive_generate_gt.py` is a simple script designed to apply **generate_gt.py** recursively on a list of directories provided in the "list_of_dirs" variable. 
 
 You can adapt **generate_gt.py**'s' mode of execution when calling `subprocess.run()` function (see [subprocess documentation](https://docs.python.org/3.6/library/subprocess.html#subprocess.run)).

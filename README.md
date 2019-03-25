@@ -20,9 +20,9 @@ In `class_color.py`, the variable `my_classes` stores information on each class:
 
 ``` python
 my_classes = {
-    "...":{
-        "color": [...],
-        "order": ...}
+    "<name>":{
+        "color": [<B-value>,<G-value>,<R-value>],
+        "order": <z-order>}
 }
 ```
 

@@ -18,7 +18,7 @@ In `class_color.py`, the variable `my_classes` stores information on each class:
 - the associated **BGR** color
 - a number corresponding to its z-order (similar to CSS's z-index)
 
-``` python
+``` 
 my_classes = {
     "<name>":{
         "color": [<B-value>,<G-value>,<R-value>],
@@ -27,7 +27,7 @@ my_classes = {
 ```
 
 ### 2. color and combine masks
-`combine_mask.py` uses information provided in `class_color.py` to organize layers in the desired order and assigne each new layer a color.
+`generate_gt.py` uses information provided in `class_color.py` to organize layers in the desired order and assigne each new layer a color.
 
 It takes up to three arguments:
 - `-i`: is required, and provides the absolute path to the directory containing original mask images
@@ -37,5 +37,10 @@ It takes up to three arguments:
 **WARNING** : masks are expected to have been created using the script provided as an example in [dhSegment documentation on annotation](https://github.com/dhlab-epfl/dhSegment/blob/04ce8b6db9a3fef3840c7fbbb8e65950851a3355/doc/start/annotating.rst), so the script will expect the name of the mask's class to be indicated in the name of the image file.
 
 ``` shell
-python combine_mask.py -i path/to/input -o /path/to/output
+python generate_gt.py -i path/to/input -o /path/to/output
 ```
+
+## Run GT_Generator recursively
+`recursive_generate_gt.py` is a simple script designed to apply **generate_gt.py** recursively on a list of directory provided in the "list_of_dirs" variable. 
+
+You can adapt **generate_gt.py**'s' mode of execution when calling `subprocess.run()` function (see [subprocess documentation](https://docs.python.org/3.6/library/subprocess.html#subprocess.run)).

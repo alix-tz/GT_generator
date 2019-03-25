@@ -8,7 +8,7 @@ list_of_dirs = []
 for dir in list_of_dirs:
     print("Treating : {}".format(dir))
     try:
-        subprocess.run(["python", "path/to/combine_mask.py", "-i", dir])
+        subprocess.run(["python", "path/to/generate_gt.py", "-i", dir])
     except e as Exception:
         print(e)
     

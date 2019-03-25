@@ -5,9 +5,7 @@ GT_generator helps generating ground truth for dhSegment. It intends to complete
 scripts to create ground truth for dhsegment
 
 ## Requirements
-This script requires the installation of:
-- the [openCV python library](https://opencv.org/)
-- [dhSegment](https://dhsegment.readthedocs.io/en/latest/index.html)
+This script requires the installation of the [openCV python library](https://opencv.org/). It is also meant to complement usage of [dhSegment](https://dhsegment.readthedocs.io/en/latest/index.html).
 
 ## How to run GT_generator
 Following dhSegment tutorial, you will most likely end up, for a single annotated image, with multiple black and white masks (one per class of annotation). In order to create proper ground truth, you will need to color each mask according to their class and to combine these masks all together.

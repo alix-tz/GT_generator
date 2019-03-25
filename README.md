@@ -15,8 +15,8 @@ Following dhSegment tutorial, you will most likely end up, for a single annotate
 ### 1. assign each class a color
 In `class_color.py`, the variable `my_classes` stores information on each class:
 - the name
-- the associated BGR color
-- the order
+- the associated **BGR** color
+- a number corresponding to its z-order (similar to CSS's z-index)
 
 ``` python
 my_classes = {
@@ -26,22 +26,8 @@ my_classes = {
 }
 ```
 
-### 2. color each mask
-`color_mask.py` uses information provided in `class_color.py` to change white zone in the mask to the desired color.
-
-It takes up to three arguments:
-- `-i`: is required, and provides the absolute path to the directory containing original mask images
-- `-o`: is not required, and allows the user to specify the destination of the transformed files in the form of an absolute path. Default output destination is `{input_path}/processed/`.
-- `--test`: activates test mode which will display various informative messages during the execution of the script.
-
-**WARNING** : masks are expected to have been created using the script provided as an example in [dhSegment documentation on annotation](https://github.com/dhlab-epfl/dhSegment/blob/04ce8b6db9a3fef3840c7fbbb8e65950851a3355/doc/start/annotating.rst), so the script will expect the name of the mask's class to be indicated in the name of the image file.
-
-``` shell
-python color_mask.py -i path/to/input -o path/to/output
-```
-
-### 3. combine masks
-`combine_mask.py` uses information provided in `class_color.py` to organize layers in the desired order.
+### 2. color and combine masks
+`combine_mask.py` uses information provided in `class_color.py` to organize layers in the desired order and assigne each new layer a color.
 
 It takes up to three arguments:
 - `-i`: is required, and provides the absolute path to the directory containing original mask images
@@ -51,5 +37,5 @@ It takes up to three arguments:
 **WARNING** : masks are expected to have been created using the script provided as an example in [dhSegment documentation on annotation](https://github.com/dhlab-epfl/dhSegment/blob/04ce8b6db9a3fef3840c7fbbb8e65950851a3355/doc/start/annotating.rst), so the script will expect the name of the mask's class to be indicated in the name of the image file.
 
 ``` shell
-python combine_mask.py -i path/to/input -o path/to/output
+python combine_mask.py -i path/to/input -o /path/to/output
 ```
